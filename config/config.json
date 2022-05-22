@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "admin",
-    "database": "database_development",
-    "host": "127.0.0.1",
+    "username": "process.env.RDS_USERNAME",
+    "password": "process.env.RDS_PASSWORD!",
+    "database": "postgres",
+    "host": "process.env.RDS_HOSTNAME",
     "dialect": "postgres"
   },
   "test": {
