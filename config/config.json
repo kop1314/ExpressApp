@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "process.env.RDS_USERNAME",
-    "password": "process.env.RDS_PASSWORD!",
+    "username": "postgres",
+    "password": "News123668!",
     "database": "postgres",
-    "host": "process.env.RDS_HOSTNAME",
+    "host": "database-development.cj9i7rjpjj9e.us-east-1.rds.amazonaws.com",
     "dialect": "postgres"
   },
   "test": {
