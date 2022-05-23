@@ -8,9 +8,9 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    return await queryInterface.addColumn(
-      'Posts', 
-      'photoPath', 
+    await queryInterface.addColumn(
+      'Photos', 
+      'photoUrl', 
       {
         type: Sequelize.STRING,
       },
@@ -24,6 +24,5 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    
   }
 };

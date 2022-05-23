@@ -1,4 +1,8 @@
-const {Post} = require('../../models');
+const {
+    Post,
+    Photo,
+} = require('../../models');
+
 const {
     uploadToS3,
 } = require('../service/awsS3.service');
@@ -13,20 +17,24 @@ async function createPost(req, res) {
                 message: "Missing input!"
             })
         }
-        //console.log(req.file);
-        var path = '';
-        if (req.files[0]) {
-            const file = req.files[0];
-            const result = await uploadToS3(file);
-            path = result.Location;
-        }
-
-        await Post.create({
+        const post = await Post.create({
             title: title,
             description: description,
             userId: req.user.id,
-            photoPath: path,
         });
+
+
+        //console.log(req.file);
+        if (req.files) {
+            const results = await uploadToS3(req.files);
+            results.map(async (result) => {
+                await Photo.create({
+                    postId: post.id,
+                    photoUrl: result.Location,
+                })
+            })
+        }
+
 
         return res.status(201).json({
             message: 'Post was created successfully!'
