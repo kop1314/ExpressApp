@@ -70,7 +70,10 @@ async function getPhotoUrlsByPostId(postId) {
         }
     });
     photos.forEach((photo) => {
-        photoUrls.push(photo.photoUrl);
+        photoUrls.push({
+            photoId: photo.id,
+            photoUrl: photo.photoUrl
+        });
     });
     
     return photoUrls;
