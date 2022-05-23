@@ -1,4 +1,8 @@
 const {Post} = require('../../models');
+const {
+    uploadToS3,
+} = require('../service/awsS3.service');
+
 
 async function createPost(req, res) {
     try {
@@ -11,8 +15,10 @@ async function createPost(req, res) {
         }
         //console.log(req.file);
         var path = '';
-        if (req.file) {
-            path = req.file.path;
+        if (req.files[0]) {
+            const file = req.files[0];
+            const result = await uploadToS3(file);
+            path = result.Location;
         }
 
         await Post.create({

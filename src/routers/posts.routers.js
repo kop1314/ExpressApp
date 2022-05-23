@@ -1,11 +1,12 @@
 const express = require('express');
 const {
     verifyToken,
-} = require('../middleware/authJwt');
+} = require('../middleware/authJwt.middleware');
 
 const {
     upload,
-} = require('../middleware/uploadImg')
+    uploadErrorHandler,
+} = require('../middleware/uploadImg.middleware')
 
 const {
     createPost,
@@ -13,6 +14,6 @@ const {
 
 const postsRouter = express.Router();
 
-postsRouter.post('/posts/create', verifyToken, upload.single('photo'), createPost);
+postsRouter.post('/posts/create', verifyToken, upload.array('photo'), uploadErrorHandler, createPost);
 
 module.exports = postsRouter;

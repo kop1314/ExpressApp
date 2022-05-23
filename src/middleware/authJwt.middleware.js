@@ -2,9 +2,6 @@ const jwt = require("jsonwebtoken");
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers.authorization;
-    console.log(req.body);
-    console.log(req.file);
-    console.log("hello from authjwt");
     if (!authHeader) {
         return res.status(401).send({
             message: "Missing Token!"
