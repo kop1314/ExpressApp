@@ -8,6 +8,10 @@ I created authRouter for users to make POST requests to either sign up or sign i
 
 In order to add the feature of having at most 5 photos, I created another data table called Photo in the database. It has 5 attributes which are id(integer), postId(integer), photoUrl(string), createdAt(timestamp with timezone in iso format), and updatedAt(timestamp with timezone in iso format). In addition, I increase the limit of multer to 5. On the other hand, I created a route which has a userId as parameter to edit any posts asociate with this userId. The route will return a list of json objects where each of them represents a Post object associates with the given userId. Each Post Object has id, title, description, userId, timeDiff(difference between now and the time when the post was created), and a list of photo urls. This returning data is designed to be viewed by the user with the given userId so that the user can edit the content in the front end.
 
+# req3
+
+I created another data object "Comment" with attributes of id, content, createdUserId(id of user who commented), postId(id of associated post), createdAt, and updatedAt. Then, I add a router for users who logged in to comment on a specific post. Content of this comment and postId are required for the request. In addition, I create a route to get all posts along with associated photos and comments in the database with pagination. Pagination offset and limit will be calculated based on given query parameters of the request. Finally, I implemented another route for users to modify the newly added field of the User Model, usrname. This attribute is set to "Anonymous" by default. Since HTML can only send POST or GET request, I use "method-override" to modify the POST request to PUT request in the backend.
+
 All API calls are tested in Postman.
 
 URL of AWS EB: http://expressapp-env.eba-n2hcxwj5.us-east-1.elasticbeanstalk.com/ 
