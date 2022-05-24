@@ -1,11 +1,16 @@
 const {
     Post,
     Photo,
+    Comment,
 } = require('../../models');
 
 const {
     uploadToS3,
 } = require('../service/awsS3.service');
+
+const {
+    getPagination,
+} = require('../service/pagination.service')
 
 const TWO_SEC_AGO = "2s ago";
 const TEN_DAY_AGO = "10d ago";
@@ -18,8 +23,6 @@ const DAY_TO_MILLISEC = 24 * 60 * 60 * SEC_TO_MILLISEC;
 const WEEK_TO_MILLISEC = 7 * DAY_TO_MILLISEC;
 const MONTH_TO_MILLISEC = 30.4167 * DAY_TO_MILLISEC;
 const YEAR_TO_MILLISEC = 365 * DAY_TO_MILLISEC;
-
-
 
 async function createPost(req, res) {
     try {
@@ -155,7 +158,37 @@ async function getPostsByUserId(req, res) {
 
 }
 
+async function getAllPosts(req, res) {
+    try {
+        const {skip, limit} = getPagination(req.query);
+        const posts = await Post.findAll({
+            attributes: ['id', 'title', 'description'],
+            include: [
+                {
+                    model: Comment,
+                    attribute: ['content', 'createdUserId'],
+                    offset: skip,
+                    limit: limit,
+                },
+                {
+                    model: Photo,
+                    attribute: ['photoUrl'],
+                }
+            ],
+            offset: skip,
+            limit: limit,
+        });
+
+        return res.status(200).json(posts);
+
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).json({message: err.message});
+    }
+}
+
 module.exports = {
     createPost,
     getPostsByUserId,
+    getAllPosts,
 }
